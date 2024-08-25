@@ -98,11 +98,15 @@ namespace GVOLauncher
             };
 
             timer = new Timer();
-            timer.Interval = 300;
+            timer.Interval = 1000;
             timer.Tick += Timer_Tick;
             timer.Start();
         }
         private void Timer_Tick(object sender, EventArgs e)
+        {
+            InitLauncher();
+        }
+        private void InitLauncher()
         {
             var data = API.LoadClientConfig(Path.Combine(API.Launcher_Data_Path, "gvo_config.ini"), "Launcher");
             NickName.Text = data["Name"];
@@ -124,7 +128,7 @@ namespace GVOLauncher
             }
             else
             {
-                if(API.IsVaildSAMP(data["GamePath"]) == false)
+                if (API.IsVaildSAMP(data["GamePath"]) == false)
                 {
                     pictureBox2.Image = Properties.Resources.download;
                     Status_Launcher = 3;
@@ -144,7 +148,6 @@ namespace GVOLauncher
                 }
             }
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
         }
@@ -217,7 +220,6 @@ namespace GVOLauncher
             }
             else if(Status_Launcher == 1)
             {
-                bool hack_checking = false;
                 label1.Text = "Kiểm tra file game, vui lòng đợi trong giây lát";
 
                 StringBuilder result = API.CheckCleo(data["GamePath"], label1, progressBar1);
@@ -226,7 +228,6 @@ namespace GVOLauncher
                 if (result.Length > 0)
                 {
                     API.ShowMsgError($"Vui lòng gỡ: \n{result.ToString()}");
-                    hack_checking = true;
                     label1.Text = "Invalid file detected!";
                 }
                 else
@@ -239,6 +240,38 @@ namespace GVOLauncher
                     }
                 }
 
+            }
+            else
+            {
+                using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+                {
+                    DialogResult result = folderDialog.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        string selectedPath = folderDialog.SelectedPath;
+
+                        if (!string.IsNullOrWhiteSpace(selectedPath))
+                        {
+                            string[] files = Directory.GetFiles(folderDialog.SelectedPath);
+                            string[] subDirs = Directory.GetDirectories(folderDialog.SelectedPath);
+                            if (files.Length == 0 && subDirs.Length == 0 || API.IsVaildSAMP(selectedPath))
+                            {
+                                data["GamePath"] = folderDialog.SelectedPath;
+                                API.SaveClientConfig(Path.Combine(API.Launcher_Data_Path, "gvo_config.ini"), data, "Launcher");
+                            }
+                            else API.ShowMsgError("Bạn cần chọn 1 Folder trống");
+                        }
+                        else
+                        {
+                            MessageBox.Show("No folder selected.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Folder selection canceled.");
+                    }
+                }
             }
         }
 
