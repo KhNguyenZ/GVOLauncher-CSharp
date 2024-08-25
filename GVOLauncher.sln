@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.34526.175
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GVOLauncher", "GVOLauncher\GVOLauncher.csproj", "{2A68C5D7-31DE-472F-947D-EF60C0D400FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCLauncher", "GVOLauncher\RCLauncher.csproj", "{2A68C5D7-31DE-472F-947D-EF60C0D400FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
