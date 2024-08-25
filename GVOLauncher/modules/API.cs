@@ -33,7 +33,7 @@ namespace GVOLauncher.modules
     }
     class API
     {
-        public string ServerAPI = "http://localhost/";
+        public string ServerAPI = "https://khnguyen.store/";
         public string LauncherPath = Directory.GetCurrentDirectory();
         public string Launcher_Data_Path = "Data";
 
